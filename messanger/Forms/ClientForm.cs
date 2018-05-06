@@ -9,17 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
+using Messenger.ApiClient.Models;
 
-namespace Messenger
+namespace Messenger.Forms
 {
     public partial class ClientForm : MetroFramework.Forms.MetroForm
     {
-       // EventArgs Event;
-       // object Obj;
-       // delegate void Button_Click(object Obj, EventArgs Args);
-        public static string userName = "Pidor";
-        private const string host = "192.168.43.200";
-        private const int port = 8888;
+        public UserModel user;
         static TcpClient client;
         static NetworkStream stream;
         public ClientForm()
@@ -28,20 +24,10 @@ namespace Messenger
             Chat.Enabled = false;
         }
 
-        private void ClientForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void SendButtonClick(object sender, EventArgs e)
         {
             SendMessage();
-            textMessage.Clear();
-        }
-
-        private void ConnectButton_Click(object sender, EventArgs e)
-        {
-            MainChat();
+            MessageTextInput.Clear();
         }
         
         private void MainChat()
@@ -49,34 +35,26 @@ namespace Messenger
             client = new TcpClient();
             try
             {
-                client.Connect(host, port); //подключение клиента
-                stream = client.GetStream(); // получаем поток
+                //client.Connect(host, port);
+                stream = client.GetStream();
 
-                string message = userName;
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                stream.Write(data, 0, data.Length);
+                //string message = userName;
+                //byte[] data = Encoding.Unicode.GetBytes(message);
+                //stream.Write(data, 0, data.Length);
 
-                // запускаем новый поток для получения данных
-                Thread receiveThread1 = new Thread(new ThreadStart(ReceiveMessage));
-                //Thread receiveThread2 = new Thread(new ThreadStart(Button1_Click));
-                Chat.Text = "Добро пожаловать" + Environment.NewLine; ;//+ userName;
+                Thread receiveThread1 = new Thread(new ThreadStart(ReceiveMessage));;
+                Chat.Text = "Welcome, " + Environment.NewLine; ;//+ userName;
                 receiveThread1.Start();
-                ConnectButton.Enabled = false;
-                //SendMessage();
             }
             catch (Exception ex)
             {
                 Chat.Text = ex.Message;
             }
-            //finally
-            //{
-            //    Disconnect();
-            //}
         }
         // отправка сообщений
         private void SendMessage()
         {
-            string message = textMessage.Text;
+            string message = MessageTextInput.Text;
             Chat.Text += message + Environment.NewLine;
             byte[] data = Encoding.Unicode.GetBytes(message);
             stream.Write(data, 0, data.Length);
@@ -135,9 +113,18 @@ namespace Messenger
         {
             if (e.KeyCode == Keys.Enter)
             {
-                button1_Click(sender, e);
-                textMessage.Clear();
+                SendButtonClick(sender, e);
+                MessageTextInput.Clear();
             }
+        }
+
+        private void LogoutButtonClick(object sender, EventArgs e) {
+            if (stream != null)
+                stream.Close();
+            if (client != null)
+                client.Close();
+            Environment.Exit(0);
+            Close();
         }
     }
 }

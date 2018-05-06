@@ -1,6 +1,6 @@
-﻿namespace Messenger
+﻿namespace Messenger.Forms
 {
-    partial class login
+    partial class LoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Log = new System.Windows.Forms.TextBox();
+            this.UsernameInput = new System.Windows.Forms.TextBox();
             this.Password = new System.Windows.Forms.Label();
-            this.Pass = new System.Windows.Forms.TextBox();
+            this.PasswordInput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.UserNameInput = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -42,12 +42,11 @@
             // 
             // Log
             // 
-            this.Log.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Log.Location = new System.Drawing.Point(98, 41);
-            this.Log.Name = "Log";
-            this.Log.Size = new System.Drawing.Size(285, 28);
-            this.Log.TabIndex = 3;
-            this.Log.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.UsernameInput.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.UsernameInput.Location = new System.Drawing.Point(98, 41);
+            this.UsernameInput.Name = "Log";
+            this.UsernameInput.Size = new System.Drawing.Size(285, 28);
+            this.UsernameInput.TabIndex = 3;
             // 
             // Password
             // 
@@ -61,12 +60,12 @@
             // 
             // Pass
             // 
-            this.Pass.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Pass.Location = new System.Drawing.Point(98, 101);
-            this.Pass.Name = "Pass";
-            this.Pass.Size = new System.Drawing.Size(285, 28);
-            this.Pass.TabIndex = 1;
-            this.Pass.UseSystemPasswordChar = true;
+            this.PasswordInput.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.PasswordInput.Location = new System.Drawing.Point(98, 101);
+            this.PasswordInput.Name = "Pass";
+            this.PasswordInput.Size = new System.Drawing.Size(285, 28);
+            this.PasswordInput.TabIndex = 1;
+            this.PasswordInput.UseSystemPasswordChar = true;
             // 
             // label1
             // 
@@ -77,7 +76,6 @@
             this.label1.Size = new System.Drawing.Size(85, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Username";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // UserNameInput
             // 
@@ -88,7 +86,7 @@
             this.UserNameInput.TabIndex = 2;
             this.UserNameInput.Text = "Sign In";
             this.UserNameInput.UseVisualStyleBackColor = true;
-            this.UserNameInput.Click += new System.EventHandler(this.button2_Click);
+            this.UserNameInput.Click += new System.EventHandler(this.LoginClickEvent);
             // 
             // button3
             // 
@@ -99,14 +97,14 @@
             this.button3.TabIndex = 4;
             this.button3.Text = "Sign Up";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.RegisterClickEvent);
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.Password);
-            this.panel2.Controls.Add(this.Pass);
+            this.panel2.Controls.Add(this.PasswordInput);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.Log);
+            this.panel2.Controls.Add(this.UsernameInput);
             this.panel2.Location = new System.Drawing.Point(54, 47);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(386, 139);
@@ -143,7 +141,6 @@
             this.ForeColor = System.Drawing.Color.Black;
             this.Name = "login";
             this.TransparencyKey = System.Drawing.Color.LightSlateGray;
-            this.Load += new System.EventHandler(this.login_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -152,9 +149,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox Log;
+        private System.Windows.Forms.TextBox UsernameInput;
         private System.Windows.Forms.Label Password;
-        private System.Windows.Forms.TextBox Pass;
+        private System.Windows.Forms.TextBox PasswordInput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button UserNameInput;
         private System.Windows.Forms.Button button3;

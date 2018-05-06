@@ -1,7 +1,5 @@
-﻿namespace Messenger
-{
-    partial class Register
-    {
+﻿namespace Messenger.Forms {
+    partial class RegisterForm {
         /// <summary>
         /// Обязательная переменная конструктора.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Освободить все используемые ресурсы.
         /// </summary>
         /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,14 +22,14 @@
         /// Требуемый метод для поддержки конструктора — не изменяйте 
         /// содержимое этого метода с помощью редактора кода.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterForm));
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.ErrorMessageLable = new System.Windows.Forms.Label();
             this.openButton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.RepeatPasswordInput = new System.Windows.Forms.TextBox();
             this.PasswordInput = new System.Windows.Forms.TextBox();
@@ -48,7 +44,7 @@
             this.errorProvider3 = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorProvider4 = new System.Windows.Forms.ErrorProvider(this.components);
             this.metroPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).BeginInit();
@@ -59,19 +55,21 @@
             // 
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(557, 580);
+            this.metroPanel1.HorizontalScrollbarSize = 8;
+            this.metroPanel1.Location = new System.Drawing.Point(561, 327);
+            this.metroPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(200, 100);
+            this.metroPanel1.Size = new System.Drawing.Size(119, 81);
             this.metroPanel1.TabIndex = 0;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
+            this.metroPanel1.VerticalScrollbarSize = 8;
             // 
             // metroPanel2
             // 
+            this.metroPanel2.Controls.Add(this.ErrorMessageLable);
             this.metroPanel2.Controls.Add(this.openButton);
-            this.metroPanel2.Controls.Add(this.pictureBox1);
+            this.metroPanel2.Controls.Add(this.pictureBox);
             this.metroPanel2.Controls.Add(this.button1);
             this.metroPanel2.Controls.Add(this.RepeatPasswordInput);
             this.metroPanel2.Controls.Add(this.PasswordInput);
@@ -83,113 +81,138 @@
             this.metroPanel2.Controls.Add(this.metroLabel1);
             this.metroPanel2.HorizontalScrollbarBarColor = true;
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.HorizontalScrollbarSize = 10;
-            this.metroPanel2.Location = new System.Drawing.Point(15, 63);
+            this.metroPanel2.HorizontalScrollbarSize = 8;
+            this.metroPanel2.Location = new System.Drawing.Point(11, 62);
+            this.metroPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.metroPanel2.Name = "metroPanel2";
-            this.metroPanel2.Size = new System.Drawing.Size(557, 522);
+            this.metroPanel2.Size = new System.Drawing.Size(572, 261);
             this.metroPanel2.TabIndex = 1;
             this.metroPanel2.VerticalScrollbarBarColor = true;
             this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel2.VerticalScrollbarSize = 10;
+            this.metroPanel2.VerticalScrollbarSize = 8;
+            // 
+            // ErrorMessageLable
+            // 
+            this.ErrorMessageLable.AutoSize = true;
+            this.ErrorMessageLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.ErrorMessageLable.ForeColor = System.Drawing.Color.Red;
+            this.ErrorMessageLable.Location = new System.Drawing.Point(17, 196);
+            this.ErrorMessageLable.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.ErrorMessageLable.Name = "ErrorMessageLable";
+            this.ErrorMessageLable.Size = new System.Drawing.Size(0, 17);
+            this.ErrorMessageLable.TabIndex = 28;
+            this.ErrorMessageLable.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // openButton
             // 
             this.openButton.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.openButton.Location = new System.Drawing.Point(25, 465);
+            this.openButton.Location = new System.Drawing.Point(14, 224);
+            this.openButton.Margin = new System.Windows.Forms.Padding(2);
             this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(185, 32);
+            this.openButton.Size = new System.Drawing.Size(113, 26);
             this.openButton.TabIndex = 27;
             this.openButton.Text = "Upload picture";
             this.openButton.UseVisualStyleBackColor = true;
-            this.openButton.Click += new System.EventHandler(this.openButton_Click);
+            this.openButton.Click += new System.EventHandler(this.UploadImageClickEvent);
             // 
-            // pictureBox1
+            // pictureBox
             // 
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(25, 277);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(186, 182);
-            this.pictureBox1.TabIndex = 25;
-            this.pictureBox1.TabStop = false;
+            this.pictureBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.pictureBox.InitialImage = null;
+            this.pictureBox.Location = new System.Drawing.Point(14, 14);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(173, 166);
+            this.pictureBox.TabIndex = 25;
+            this.pictureBox.TabStop = false;
             // 
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(335, 465);
+            this.button1.Location = new System.Drawing.Point(421, 224);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(186, 32);
+            this.button1.Size = new System.Drawing.Size(113, 26);
             this.button1.TabIndex = 24;
             this.button1.Text = "Sign Up";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.RegisterButtonClickEvent);
             // 
             // RepeatPasswordInput
             // 
-            this.RepeatPasswordInput.Location = new System.Drawing.Point(246, 210);
+            this.RepeatPasswordInput.Location = new System.Drawing.Point(334, 161);
+            this.RepeatPasswordInput.Margin = new System.Windows.Forms.Padding(2);
             this.RepeatPasswordInput.Name = "RepeatPasswordInput";
             this.RepeatPasswordInput.PasswordChar = '*';
-            this.RepeatPasswordInput.Size = new System.Drawing.Size(266, 22);
+            this.RepeatPasswordInput.Size = new System.Drawing.Size(200, 20);
             this.RepeatPasswordInput.TabIndex = 23;
-            this.RepeatPasswordInput.TextChanged += new System.EventHandler(this.BoxRepeatPassTextChanged);
+            this.RepeatPasswordInput.TextChanged += new System.EventHandler(this.RepeatPasswordInputTextChanged);
             // 
             // PasswordInput
             // 
-            this.PasswordInput.Location = new System.Drawing.Point(246, 150);
+            this.PasswordInput.Location = new System.Drawing.Point(334, 112);
+            this.PasswordInput.Margin = new System.Windows.Forms.Padding(2);
             this.PasswordInput.Name = "PasswordInput";
             this.PasswordInput.PasswordChar = '*';
-            this.PasswordInput.Size = new System.Drawing.Size(266, 22);
+            this.PasswordInput.Size = new System.Drawing.Size(200, 20);
             this.PasswordInput.TabIndex = 22;
-            this.PasswordInput.TextChanged += new System.EventHandler(this.BoxPassword_TextChanged);
+            this.PasswordInput.TextChanged += new System.EventHandler(this.PasswordInputTextChanged);
             // 
             // EmailInput
             // 
-            this.EmailInput.Location = new System.Drawing.Point(246, 90);
+            this.EmailInput.Location = new System.Drawing.Point(334, 63);
+            this.EmailInput.Margin = new System.Windows.Forms.Padding(2);
             this.EmailInput.Name = "EmailInput";
-            this.EmailInput.Size = new System.Drawing.Size(266, 22);
+            this.EmailInput.Size = new System.Drawing.Size(200, 20);
             this.EmailInput.TabIndex = 21;
-            this.EmailInput.TextChanged += new System.EventHandler(this.BoxNickTextChanged);
+            this.EmailInput.TextChanged += new System.EventHandler(this.EmailInputTextChanged);
             // 
             // UsernameInput
             // 
-            this.UsernameInput.Location = new System.Drawing.Point(246, 30);
+            this.UsernameInput.Location = new System.Drawing.Point(334, 14);
+            this.UsernameInput.Margin = new System.Windows.Forms.Padding(2);
             this.UsernameInput.Name = "UsernameInput";
-            this.UsernameInput.Size = new System.Drawing.Size(266, 22);
+            this.UsernameInput.Size = new System.Drawing.Size(200, 20);
             this.UsernameInput.TabIndex = 20;
-            this.UsernameInput.TextChanged += new System.EventHandler(this.BoxName_TextChanged);
+            this.UsernameInput.TextChanged += new System.EventHandler(this.UsernameInputTextChanged);
             // 
             // metroLabel4
             // 
             this.metroLabel4.AutoSize = true;
-            this.metroLabel4.Location = new System.Drawing.Point(24, 210);
+            this.metroLabel4.Location = new System.Drawing.Point(208, 161);
+            this.metroLabel4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel4.Name = "metroLabel4";
-            this.metroLabel4.Size = new System.Drawing.Size(114, 20);
+            this.metroLabel4.Size = new System.Drawing.Size(109, 19);
             this.metroLabel4.TabIndex = 9;
             this.metroLabel4.Text = "Repeat password";
             // 
             // metroLabel3
             // 
             this.metroLabel3.AutoSize = true;
-            this.metroLabel3.Location = new System.Drawing.Point(24, 150);
+            this.metroLabel3.Location = new System.Drawing.Point(208, 112);
+            this.metroLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(66, 20);
+            this.metroLabel3.Size = new System.Drawing.Size(63, 19);
             this.metroLabel3.TabIndex = 7;
             this.metroLabel3.Text = "Password";
             // 
             // metroLabel2
             // 
             this.metroLabel2.AutoSize = true;
-            this.metroLabel2.Location = new System.Drawing.Point(24, 90);
+            this.metroLabel2.Location = new System.Drawing.Point(208, 63);
+            this.metroLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(42, 20);
+            this.metroLabel2.Size = new System.Drawing.Size(41, 19);
             this.metroLabel2.TabIndex = 5;
             this.metroLabel2.Text = "Email";
             // 
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(24, 30);
+            this.metroLabel1.Location = new System.Drawing.Point(208, 14);
+            this.metroLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(73, 20);
+            this.metroLabel1.Size = new System.Drawing.Size(68, 19);
             this.metroLabel1.TabIndex = 3;
             this.metroLabel1.Text = "Username";
             // 
@@ -209,20 +232,24 @@
             // 
             this.errorProvider4.ContainerControl = this;
             // 
-            // Register
+            // RegisterForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(579, 597);
+            this.ClientSize = new System.Drawing.Size(589, 341);
             this.Controls.Add(this.metroPanel1);
             this.Controls.Add(this.metroPanel2);
-            this.Name = "Register";
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximumSize = new System.Drawing.Size(589, 341);
+            this.MinimumSize = new System.Drawing.Size(589, 341);
+            this.Name = "RegisterForm";
+            this.Padding = new System.Windows.Forms.Padding(15, 60, 15, 16);
             this.Style = MetroFramework.MetroColorStyle.Green;
-            this.Text = "Регистрация";
+            this.Text = "Sign Up";
             this.metroPanel2.ResumeLayout(false);
             this.metroPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider3)).EndInit();
@@ -248,8 +275,9 @@
         private System.Windows.Forms.ErrorProvider errorProvider3;
         private System.Windows.Forms.ErrorProvider errorProvider4;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button openButton;
+        private System.Windows.Forms.Label ErrorMessageLable;
     }
 }
 
