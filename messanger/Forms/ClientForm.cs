@@ -10,18 +10,56 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
 using Messenger.ApiClient.Models;
+using Messenger.ApiClient;
+using Messenger.ApiClient.Services;
+using System.IO;
+using System.Configuration;
+using Messenger.ApiClient.Helpers;
 
 namespace Messenger.Forms
 {
     public partial class ClientForm : MetroFramework.Forms.MetroForm
     {
-        public UserModel user;
+        MessengerApiClient apiClient;
+        ImageService imageService;
+
+        private string host;
+        private int port;
+
+        private UserModel user;
         static TcpClient client;
         static NetworkStream stream;
         public ClientForm()
         {
             InitializeComponent();
+            apiClient = MessengerApiClient.GetInstance();
+            imageService = new ImageService();
+            Initialize();
+            Task.Factory.StartNew(() => Startup()).Wait();
+        }
+
+        private void Initialize()
+        {
             Chat.Enabled = false;
+            host = ConfigurationManager.AppSettings.Get("Host");
+            port = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Port"));
+        }
+
+        private async Task Startup()
+        {
+            user = await apiClient.GetCurrentUser();
+            UsernameLable.Text = user.Username;
+            SetUserImage(user.PictureURL);
+            MainChat();
+        }
+
+        private void SetUserImage(string url)
+        {
+            using (Stream stream = imageService.DownloadImage(url))
+            {
+                pictureBox.Image = new Bitmap(stream);
+                pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
         }
 
         private void SendButtonClick(object sender, EventArgs e)
@@ -35,38 +73,46 @@ namespace Messenger.Forms
             client = new TcpClient();
             try
             {
-                //client.Connect(host, port);
+                client.Connect(host, port);
                 stream = client.GetStream();
 
-                //string message = userName;
-                //byte[] data = Encoding.Unicode.GetBytes(message);
-                //stream.Write(data, 0, data.Length);
-
-                Thread receiveThread1 = new Thread(new ThreadStart(ReceiveMessage));;
-                Chat.Text = "Welcome, " + Environment.NewLine; ;//+ userName;
-                receiveThread1.Start();
+                Thread receiveThread = new Thread(new ThreadStart(ReceiveMessage));;
+                Chat.Text = "Welcome, " + user.Username + Environment.NewLine; ;
+                receiveThread.Start();
             }
             catch (Exception ex)
             {
                 Chat.Text = ex.Message;
             }
         }
-        // отправка сообщений
+
         private void SendMessage()
         {
-            string message = MessageTextInput.Text;
-            Chat.Text += message + Environment.NewLine;
-            byte[] data = Encoding.Unicode.GetBytes(message);
+            
+            MessageModel messageModel = GetMessageModel(MessageTextInput.Text);
+            string json = JsonFormatter.Serialize(messageModel);
+            byte[] data = Encoding.UTF8.GetBytes(json);
             stream.Write(data, 0, data.Length);
+            ParseJsonAndShowMessage(json);
         }
-        // получение сообщений
+
+        private MessageModel GetMessageModel(string messageText)
+        {
+            return new MessageModel
+            {
+                MessageText = messageText,
+                SenderUsername = user.Username,
+                PublishTime = DateTime.Now
+            };
+        }
+
         private void ReceiveMessage()
         {
             while (true)
             {
                 try
                 {
-                    byte[] data = new byte[64]; // буфер для получаемых данных
+                    byte[] data = new byte[64];
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -75,41 +121,24 @@ namespace Messenger.Forms
                         builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                     }
                     while (stream.DataAvailable);
-                    string message = builder.ToString();
-                    Chat.Text += message + Environment.NewLine;//вывод сообщения
+                    string json = builder.ToString();
+                    ParseJsonAndShowMessage(json);
                 }
                 catch
                 {
-                    Console.WriteLine("Подключение прервано!"); //соединение было прервано
-                    Console.ReadLine();
                     Disconnect();
                 }
                 
             }
         }
 
-        private void DisconnectButton_Click(object sender, EventArgs e)
+        private void ParseJsonAndShowMessage(string json)
         {
-            Disconnect();
+            MessageModel message = JsonFormatter.Deserialize<MessageModel>(json);
+            Chat.Text += message.SenderUsername + ": " + message.MessageText;
         }
 
-        private void Disconnect()
-        {
-            if (stream != null)
-                stream.Close();//отключение потока
-            if (client != null)
-                client.Close();//отключение клиента
-            Environment.Exit(0); //завершение процесса
-            Close();
-        }
-
-        private void Chat_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void textMessage_KeyDown(object sender, KeyEventArgs e)
+        private void MessageTextInputOnKeyPress(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -118,13 +147,23 @@ namespace Messenger.Forms
             }
         }
 
-        private void LogoutButtonClick(object sender, EventArgs e) {
+        private void Disconnect()
+        {
             if (stream != null)
                 stream.Close();
             if (client != null)
                 client.Close();
-            Environment.Exit(0);
+            Task.Factory.StartNew(() => Logout()).Wait();
             Close();
+        }
+
+        private void LogoutButtonClick(object sender, EventArgs e) {
+            Disconnect();
+        }
+
+        private async Task Logout()
+        {
+            await apiClient.Logout();
         }
     }
 }

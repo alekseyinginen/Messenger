@@ -39,12 +39,20 @@ namespace Messenger.Forms
             var response = await apiClient.Login(username, password);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                MessageBox.Show("Darova petuh");
+                ShowClientForm();
             }
             else 
             {
                 ErrorMessageLable.Text = "Username or password are incorrect";
             }
+        }
+
+        private void ShowClientForm()
+        {
+            ClientForm clientForm = new ClientForm();
+            Hide();
+            clientForm.FormClosed += (s, args) => this.Show();
+            clientForm.ShowDialog();
         }
         
     }

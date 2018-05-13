@@ -14,3 +14,11 @@ D:\Projects\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.csprojRe
 D:\Projects\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.csproj.CoreCompileInputs.cache
 D:\Projects\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.dll
 D:\Projects\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.pdb
+F:\курсавой\Messenger\Messenger.ApiClient\bin\Debug\Messenger.ApiClient.dll
+F:\курсавой\Messenger\Messenger.ApiClient\bin\Debug\Messenger.ApiClient.pdb
+F:\курсавой\Messenger\Messenger.ApiClient\bin\Debug\Newtonsoft.Json.dll
+F:\курсавой\Messenger\Messenger.ApiClient\bin\Debug\Newtonsoft.Json.xml
+F:\курсавой\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.csprojResolveAssemblyReference.cache
+F:\курсавой\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.csproj.CoreCompileInputs.cache
+F:\курсавой\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.dll
+F:\курсавой\Messenger\Messenger.ApiClient\obj\Debug\Messenger.ApiClient.pdb

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Messenger.ApiClient.Helpers;
+using System.Configuration;
 
 namespace Messenger.ApiClient
 {
@@ -18,8 +19,9 @@ namespace Messenger.ApiClient
 
         private MessengerApiClient()
         {
+            string baseAddress = ConfigurationManager.AppSettings.Get("ApiBaseAddress");
             client = new HttpClient();
-            client.BaseAddress = new Uri(@"http://localhost:54419/");
+            client.BaseAddress = new Uri(baseAddress);
             modelBuilder = new ModelBuilder();
         }
 
