@@ -10,6 +10,8 @@ namespace Messenger.ApiClient.Models
 
         public DateTime PublishTime { get; set; }
 
+        public string GroupId { get; set; }
+
         public string SenderUsername { get; set; }
     }
 }

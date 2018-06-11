@@ -3,13 +3,15 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Messenger.ApiClient;
-using System.Threading;
+
 
 namespace Messenger.Forms
 {
     public partial class LoginForm : MetroFramework.Forms.MetroForm
     {
-        MessengerApiClient apiClient;
+        private readonly MessengerApiClient apiClient;
+
+        private bool isLoginProcessRunning = false;
 
         public LoginForm(string username, string password)
         {
@@ -31,29 +33,55 @@ namespace Messenger.Forms
         {
             string username = UsernameInput.Text;
             string password = PasswordInput.Text;
-            Task.Factory.StartNew(() => TryToLogin(username, password)).Wait();
+
+            if (!isLoginProcessRunning)
+            {
+                isLoginProcessRunning = true;
+                bool isComplited = Task.Run(() => TryToLogin(username, password)).Result;
+                if (isComplited)
+                {
+                    ShowClientForm();
+                }
+                else
+                {
+                    UsernameInput.Text = "";
+                    PasswordInput.Text = "";
+                    ErrorMessageLable.Text = "Username or password are incorrect";
+                }
+            }
+            
         }
 
-        private async Task TryToLogin(string username, string password)
+        private async Task<bool> TryToLogin(string username, string password)
         {
             var response = await apiClient.Login(username, password);
+            isLoginProcessRunning = false;
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                ShowClientForm();
+                return true;
             }
             else 
             {
-                ErrorMessageLable.Text = "Username or password are incorrect";
+                return false;
             }
         }
 
         private void ShowClientForm()
         {
             ClientForm clientForm = new ClientForm();
-            Hide();
-            clientForm.FormClosed += (s, args) => this.Show();
+            clientForm.FormClosed += (s, args) => //???
+            {
+                clientForm.Dispose();
+                if (args.CloseReason == CloseReason.UserClosing)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    this.Show();
+                }
+            };
             clientForm.ShowDialog();
         }
-        
     }
 }

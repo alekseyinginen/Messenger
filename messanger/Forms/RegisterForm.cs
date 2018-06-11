@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Net;
 using Messenger.ApiClient.Services;
 using System.IO;
+using Messenger.Properties;
+using System.Net.Mail;
 
 namespace Messenger.Forms
 {
@@ -16,9 +18,11 @@ namespace Messenger.Forms
         private RegisterModelValidator registerValidator;
         private ImageService imageService;
 
+
         private bool isValidUsername = false;
         private bool isValidEmail = false;
         private bool isValidPassword = false, isRepeatPasswordTheSame = false;
+        public static string checkMail { get; set; }
 
         private string imageUrl;
 
@@ -59,7 +63,7 @@ namespace Messenger.Forms
             {
                 SetErrorProvider(
                     errorProvider1, 
-                    Properties.Resources.cancel, 
+                    Resources.cancel, 
                     UsernameInput, 
                     "Enter username");
 
@@ -69,7 +73,7 @@ namespace Messenger.Forms
             {
                 SetErrorProvider(
                     errorProvider1, 
-                    Properties.Resources.accept, 
+                    Resources.accept, 
                     UsernameInput, 
                     "Ok");
 
@@ -83,7 +87,7 @@ namespace Messenger.Forms
             {
                 SetErrorProvider(
                     errorProvider2, 
-                    Properties.Resources.cancel, 
+                    Resources.cancel, 
                     EmailInput, 
                     "Enter valid email address");
 
@@ -93,7 +97,7 @@ namespace Messenger.Forms
             {
                 SetErrorProvider(
                     errorProvider2,
-                    Properties.Resources.accept,
+                    Resources.accept,
                     EmailInput,
                     "Ok");
 
@@ -105,7 +109,7 @@ namespace Messenger.Forms
             if (!registerValidator.IsPasswordCorrect(PasswordInput.Text)) {
                 SetErrorProvider(
                     errorProvider3,
-                    Properties.Resources.cancel,
+                    Resources.cancel,
                     PasswordInput,
                     "Password must be 8 characters or longer");
 
@@ -114,7 +118,7 @@ namespace Messenger.Forms
             else {
                 SetErrorProvider(
                     errorProvider3,
-                    Properties.Resources.accept,
+                    Resources.accept,
                     PasswordInput,
                     "Ok");
 
@@ -129,7 +133,7 @@ namespace Messenger.Forms
             {
                 SetErrorProvider(
                     errorProvider4,
-                    Properties.Resources.accept,
+                    Resources.accept,
                     RepeatPasswordInput,
                     "Ok");
 
@@ -139,7 +143,7 @@ namespace Messenger.Forms
             {
                 SetErrorProvider(
                     errorProvider4,
-                    Properties.Resources.cancel,
+                    Resources.cancel,
                     RepeatPasswordInput,
                     "Passwords do not match");
 
@@ -164,11 +168,17 @@ namespace Messenger.Forms
         {
             if (isValidUsername && isValidEmail && isValidPassword && isRepeatPasswordTheSame)
             {
-                Task.Factory.StartNew(() => TryToRegister(
-                    UsernameInput.Text, 
-                    EmailInput.Text, 
-                    imageUrl, 
+                SendOnMail();
+                CheckIn checkIn = new CheckIn();
+                checkIn.ShowDialog();
+                if (CheckIn.checkInOk)
+                {
+                    Task.Factory.StartNew(() => TryToRegister(
+                    UsernameInput.Text,
+                    EmailInput.Text,
+                    imageUrl,
                     PasswordInput.Text)).Wait();
+                }
             }
             else
             {
@@ -185,8 +195,45 @@ namespace Messenger.Forms
             }
             else 
             {
+                UsernameInput.Text = "";
+                EmailInput.Text = "";
+                PasswordInput.Text = "";
+                RepeatPasswordInput.Text = "";
                 SetErrorMessage("username or email already in use or password is too weak");
             }
+        }
+
+        private void SendOnMail()
+        {
+            GenerateRandomString();
+            MailAddress fromMail = new MailAddress("kursach.inginen@mail.ru", "Loha");
+            MailAddress toMail = new MailAddress(EmailInput.Text.Trim());
+            
+            using (MailMessage mailMessage = new MailMessage(fromMail, toMail))
+            using (SmtpClient smtpClient = new SmtpClient("smtp.mail.ru", 587))
+            {
+                string messageForMail = "Здравствуйте, " + UsernameInput.Text + "\nВаш код подтверждения регистрации: " + checkMail;
+                mailMessage.Subject = "Подтверждение регистрации (AAMessenger)";
+                mailMessage.Body = messageForMail;
+                smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = true;
+                smtpClient.Credentials = new NetworkCredential(fromMail.Address, "49aleksey007");
+                smtpClient.Send(mailMessage);
+            }
+
+            MessageBox.Show("Mail send");
+        }
+
+        private void GenerateRandomString ()
+        {
+            string forRandom = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890";
+            Random rnd = new Random();
+            char[] rndChar = new char[6];
+            for (int i = 0; i < rndChar.Length; i++)
+            {
+                rndChar[i] = forRandom[rnd.Next(forRandom.Length)];
+            }
+            checkMail = new string(rndChar);
         }
     }
 }

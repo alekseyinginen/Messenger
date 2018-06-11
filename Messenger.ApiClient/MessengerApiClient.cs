@@ -1,12 +1,10 @@
-﻿using Messenger.ApiClient.Models;
+﻿using Messenger.ApiClient.Helpers;
+using Messenger.ApiClient.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Messenger.ApiClient.Helpers;
 using System.Configuration;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Messenger.ApiClient
 {
@@ -59,6 +57,50 @@ namespace Messenger.ApiClient
             var response = await client.GetAsync(ApiRoutes.CurrentUser);
             string json = await response.Content.ReadAsStringAsync();
             return JsonFormatter.Deserialize<UserModel>(json);
+        }
+
+        public async Task<MessageModel> AddMessage(MessageModel model)
+        {
+            //var content = JsonFormatter.GetStringJsonContent(model);
+            //var response = await client.PostAsync(ApiRoutes.AddMessage, content);
+            //string json = await response.Content.ReadAsStringAsync();
+            //return JsonFormatter.Deserialize<MessageModel>(json);
+
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<MessageModel>> GetMessages(string groupId)
+        {
+            var response = await client.GetAsync(ApiRoutes.AllGroupMessages + groupId);
+            string json = await response.Content.ReadAsStringAsync();
+            return JsonFormatter.Deserialize<List<MessageModel>>(json);
+        }
+
+        public async Task<List<UserModel>> SearchForUsers(string query)
+        {
+            var response = await client.GetAsync(ApiRoutes.SearchForUsers + query);
+            string json = await response.Content.ReadAsStringAsync();
+            return JsonFormatter.Deserialize<List<UserModel>>(json);
+        }
+
+        public async Task<GroupModel> CreateGroup(GroupModel group)
+        {
+            var content = JsonFormatter.GetStringJsonContent(group);
+            var response = await client.PostAsync(ApiRoutes.CreateGroup, content);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string json = await response.Content.ReadAsStringAsync();
+                return JsonFormatter.Deserialize<GroupModel>(json);
+            }
+            return null;
+        }
+
+        public async Task<List<GroupModel>> GetAllUserGroups()
+        {
+            var response = await client.GetAsync(ApiRoutes.GetAllUserGroups);
+            string json = await response.Content.ReadAsStringAsync();
+            return JsonFormatter.Deserialize<List<GroupModel>>(json);
         }
     }
 }
